@@ -9,4 +9,5 @@ public interface AccountRepository extends JpaRepository<Account, Long>{
     boolean existsByAccountNumber(String accountNumber);
 
     Account findByAccountNumber(String accountNumber);
+    Account findByUser(com.banking.loan_app.models.User user);
 }

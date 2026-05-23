@@ -16,4 +16,9 @@ public class LoanController {
     public String applyForLoan(@RequestBody LoanRequest request) {
         return loanService.applyForLoan(request.getUserId(), request.getAmount());
     }
+
+    @GetMapping("/my-loans/{userId}")
+    public Object getMyLoans(@PathVariable Long userId) {
+        return loanService.getMyLoans(userId);
+    }
 }
