@@ -25,6 +25,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralExceptions(Exception ex) {
 
+        ex.printStackTrace();
+
         ErrorResponse response = new ErrorResponse("Server Error", "Something went wrong on our end. Please try again later.");
 
         // Return it with a 500 Internal Server Error status code
