@@ -81,4 +81,8 @@ public class LoanService {
 
         return loanRepository.findByUser(user);
     }
+
+    public Object getPendingLoans() {
+        return loanRepository.findByStatus(LoanStatus.PENDING);
+    }
 }
