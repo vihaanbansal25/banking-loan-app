@@ -7,6 +7,7 @@ import com.banking.loan_app.repositories.AccountRepository;
 import com.banking.loan_app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -19,6 +20,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public String registerUser(User newUser){
         // checking if user already exists
@@ -27,6 +30,7 @@ public class UserService {
         }
 
         // saving the user to the database
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         User savedUser = userRepository.save(newUser);
 
         // opening a new account for the user
@@ -48,7 +52,7 @@ public class UserService {
     public UserResponse login(String email, String password) {
         User user = userRepository.findByEmail(email);
 
-        if (user == null || !user.getPassword().equals(password)) {
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
             return null; // controller turns this into a 401
         }
 
