@@ -1,5 +1,6 @@
 package com.banking.loan_app.services;
 
+import com.banking.loan_app.dtos.UserResponse;
 import com.banking.loan_app.models.Account;
 import com.banking.loan_app.models.User;
 import com.banking.loan_app.repositories.AccountRepository;
@@ -39,5 +40,22 @@ public class UserService {
         accountRepository.save(newAccount);
 
         return "Success! User is now registered with an Account.";
+    }
+
+    // NOTE: this is a plain password comparison for now - there's no hashing or
+    // session/token handling yet. That's proper auth/security work we're doing
+    // as a separate pass later. For now this just answers "do these credentials match?".
+    public UserResponse login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+
+        if (user == null || !user.getPassword().equals(password)) {
+            return null; // controller turns this into a 401
+        }
+
+        Account account = accountRepository.findByUser(user);
+        String accountNumber = account != null ? account.getAccountNumber() : null;
+        BigDecimal balance = account != null ? account.getBalance() : null;
+
+        return new UserResponse(user.getId(), user.getFullName(), user.getEmail(), user.getRole(), accountNumber, balance);
     }
 }

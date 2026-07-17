@@ -20,7 +20,7 @@ public class User {
     private String fullName;
 
     @Enumerated(EnumType.STRING) // shows string value of enum in table instead of showing numeric digits
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "varchar(20)")
     private Role role;
 
     // getters and setters

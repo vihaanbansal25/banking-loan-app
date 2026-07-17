@@ -13,7 +13,7 @@ public class Transaction {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "varchar(20)")
     private TransactionType type;
 
     @Column(nullable = false)
@@ -25,6 +25,10 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
+
+    // Only set for TRANSFER_IN / TRANSFER_OUT, so the UI can show the other side of the transfer
+    @Column(nullable = true)
+    private String relatedAccountNumber;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -40,4 +44,7 @@ public class Transaction {
 
     public Account getAccount() { return account; }
     public void setAccount(Account account) { this.account = account; }
+
+    public String getRelatedAccountNumber() { return relatedAccountNumber; }
+    public void setRelatedAccountNumber(String relatedAccountNumber) { this.relatedAccountNumber = relatedAccountNumber; }
 }

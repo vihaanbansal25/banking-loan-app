@@ -15,7 +15,7 @@ public class Loan {
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "varchar(20)")
     private LoanStatus status;
 
     @ManyToOne
