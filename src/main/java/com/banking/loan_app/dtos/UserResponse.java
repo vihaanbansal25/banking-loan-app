@@ -15,6 +15,7 @@ public class UserResponse {
     private Role role;
     private String accountNumber;
     private BigDecimal balance;
+    private String token;
 
     public UserResponse(Long id, String fullName, String email, Role role, String accountNumber, BigDecimal balance) {
         this.id = id;
@@ -42,4 +43,7 @@ public class UserResponse {
 
     public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) { this.balance = balance; }
+
+    public String getToken() { return token; }
+    public void setToken(String token) { this.token = token; }
 }

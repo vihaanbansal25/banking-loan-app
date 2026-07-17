@@ -8,6 +8,7 @@ import com.banking.loan_app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.banking.loan_app.security.JwtUtil;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -22,6 +23,8 @@ public class UserService {
     private AccountRepository accountRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public String registerUser(User newUser){
         // checking if user already exists
@@ -60,6 +63,8 @@ public class UserService {
         String accountNumber = account != null ? account.getAccountNumber() : null;
         BigDecimal balance = account != null ? account.getBalance() : null;
 
-        return new UserResponse(user.getId(), user.getFullName(), user.getEmail(), user.getRole(), accountNumber, balance);
+        UserResponse response = new UserResponse(user.getId(), user.getFullName(), user.getEmail(), user.getRole(), accountNumber, balance);
+        response.setToken(jwtUtil.generateToken(user));
+        return response;
     }
 }
